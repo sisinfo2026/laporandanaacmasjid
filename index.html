@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laporan Dana AC Masjid</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: satu kolom sempit seperti buku kas yang dibaca di ponsel; ringkasan saldo di atas, rincian di bawah. */
+:root {
+  --bg: #F2F5F4;
+  --surface: #FFFFFF;
+  --ink: #12262A;
+  --muted: #56696D;
+  --line: #D5DFDD;
+  --accent: #0E5A58;
+  --accent-soft: #DCEBE9;
+  --amber: #8F5600;
+  --amber-soft: #F6E7CC;
+  --font-display: "Literata", Georgia, "Times New Roman", serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1819; --surface: #152325; --ink: #E6EFEE; --muted: #96ABAD; --line: #284043;
+    --accent: #5FBFB9; --accent-soft: #1B3A3B; --amber: #E3A94F; --amber-soft: #3A2D14;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1819; --surface: #152325; --ink: #E6EFEE; --muted: #96ABAD; --line: #284043;
+  --accent: #5FBFB9; --accent-soft: #1B3A3B; --amber: #E3A94F; --amber-soft: #3A2D14;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+  padding-block: 24px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: 1.75rem; font-weight: 700; }
+h2 { font-size: 1.15rem; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.sub { color: var(--muted); font-size: 0.875rem; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.num { font-variant-numeric: tabular-nums; }
+
+.summary { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+.balance-label { color: var(--muted); font-size: 0.8125rem; }
+.balance { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; line-height: 1.1; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat span:first-child { color: var(--muted); font-size: 0.75rem; }
+.stat span:last-child { font-weight: 600; font-size: 0.9375rem; overflow-wrap: anywhere; }
+.bar { height: 10px; border-radius: 99px; background: var(--accent-soft); overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.bar-meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 0.8125rem; color: var(--muted); }
+
+section { display: flex; flex-direction: column; gap: 12px; }
+.table-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; min-width: 480px; font-size: 0.875rem; }
+th, td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--accent-soft); }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tfoot td { font-weight: 600; border-bottom: 0; }
+.empty { text-align: center; color: var(--muted); padding: 22px 14px; }
+
+.phases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.phase { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.phase b { font-family: var(--font-display); font-size: 1rem; }
+.pill { align-self: flex-start; font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: 99px; background: var(--amber-soft); color: var(--amber); }
+.pill.ok { background: var(--accent-soft); color: var(--accent); }
+
+.account { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.acc-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; }
+.acc-row span:first-child { color: var(--muted); }
+.acc-no { font-family: var(--font-display); font-size: 1.375rem; font-weight: 700; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+button { font: inherit; font-weight: 600; color: var(--surface); background: var(--accent); border: 0; border-radius: 8px; padding: 8px 16px; cursor: pointer; align-self: flex-start; }
+button:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 6px; }
+.closing { color: var(--muted); font-size: 0.875rem; border-top: 1px solid var(--line); padding-top: 16px; }
+@media (max-width: 420px) {
+  h1 { font-size: 1.5rem; }
+  .balance { font-size: 1.9rem; }
+  .stats { grid-template-columns: 1fr; }
+  .phases { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Yayasan Dzu Nuuroin · Laporan Penggalangan Dana</span>
+    <h1>Peremajaan AC Masjid Pondok</h1>
+    <p class="sub">Pengadaan 4 unit AC inverter 2 PK untuk Masjid Pondok Lantai 1 dan 2. Laporan per <span id="asof">6 November 2026</span>.</p>
+  </header>
+
+  <div class="summary">
+    <div>
+      <div class="balance-label">Saldo dana saat ini</div>
+      <div class="balance num" id="saldo">Rp0</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Dana masuk</span><span class="num" id="tot-masuk">Rp0</span></div>
+      <div class="stat"><span>Pengeluaran</span><span class="num" id="tot-keluar">Rp0</span></div>
+      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp42.000.000</span></div>
+    </div>
+    <div>
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><i id="bar-fill" style="width:0%"></i></div>
+      <div class="bar-meta" style="margin-top:8px">
+        <span id="pct">0% dari target</span>
+        <span class="num" id="kurang">Kekurangan Rp42.000.000</span>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Dana Masuk</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>No.</th><th>Tanggal</th><th>Donatur</th><th class="r">Jumlah</th></tr></thead>
+        <tbody id="masuk-body"></tbody>
+        <tfoot><tr><td colspan="3">Total dana masuk</td><td class="r" id="masuk-total">Rp0</td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pengeluaran</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>No.</th><th>Tanggal</th><th>Uraian</th><th class="r">Jumlah</th></tr></thead>
+        <tbody id="keluar-body"></tbody>
+        <tfoot><tr><td colspan="3">Total pengeluaran</td><td class="r" id="keluar-total">Rp0</td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Infaq Berupa Unit AC</h2>
+    <p class="sub">Infaq barang dicatat terpisah dari infaq uang. Kebutuhan pengadaan berkurang 1 unit setiap unit diterima dan diperiksa Yayasan.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>No.</th><th>Tanggal</th><th>Donatur</th><th>Unit</th></tr></thead>
+        <tbody id="barang-body"></tbody>
+        <tfoot><tr><td colspan="3">Unit diterima</td><td id="barang-total">0 dari 4 unit</td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tahap Pengadaan</h2>
+    <div class="phases" id="phases"></div>
+    <p class="sub">Pengadaan dilakukan bertahap sesuai dana yang terkumpul dan diupayakan selesai sebelum Ramadhan.</p>
+  </section>
+
+  <section>
+    <h2>Rencana Anggaran Biaya</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Uraian</th><th class="r">Volume</th><th class="r">Harga satuan</th><th class="r">Jumlah</th></tr></thead>
+        <tbody id="rab-body"></tbody>
+        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp42.000.000</td></tr></tfoot>
+      </table>
+    </div>
+    <p class="sub">Kebutuhan dana per unit AC terpasang Rp10.500.000, termasuk jasa, material, dan cadangan biaya.</p>
+  </section>
+
+  <section>
+    <h2>Cara Berinfaq</h2>
+    <div class="account">
+      <div class="acc-row"><span>Bank</span><span>BCA</span></div>
+      <div class="acc-row"><span>Atas nama</span><span>Yayasan Dzu Nuuroin</span></div>
+      <div class="acc-no" id="rek">6170997202</div>
+      <button type="button" id="copy">Salin nomor rekening</button>
+      <p class="sub" id="copy-note" aria-live="polite">Konfirmasi infaq: Saiful Islam, 0822-5781-0701</p>
+    </div>
+    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq 1 unit AC langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi AC inverter 2 PK.</p>
+  </section>
+
+  <section>
+    <h2>Catatan</h2>
+    <ul>
+      <li>Harga merupakan estimasi dan akan dikonfirmasi melalui penawaran resmi dealer atau distributor.</li>
+      <li>Anggaran belum termasuk pembongkaran AC lama, perubahan instalasi listrik, dan pekerjaan di luar pemasangan standar.</li>
+      <li>Bila dana infaq belum mencukupi jadwal pengadaan, dana cadangan pondok dapat dipakai sebagai talangan sementara dan dicatat terpisah.</li>
+      <li>Jika dana melebihi target, kelebihannya dipakai untuk kebutuhan sarana pondok lainnya dan dilaporkan kepada donatur.</li>
+    </ul>
+  </section>
+
+  <p class="closing">Terima kasih kepada seluruh donatur, wali santri, alumni, dan masyarakat yang telah berinfaq. Semoga setiap kebaikan menjadi amal jariyah dan dibalas dengan pahala yang berlipat. Jazakumullahu khairan katsiran.</p>
+</div>
+
+<script>
+/* Catatan kas: tambahkan baris ke daftar di bawah, lalu publikasikan ulang. */
+var TARGET = 42000000;
+var AS_OF = "6 November 2026";
+// { tanggal: "7 Nov 2026", donatur: "Hamba Allah", jumlah: 500000 }
+var DANA_MASUK = [];
+// { tanggal: "20 Nov 2026", uraian: "Pembelian AC unit 1", jumlah: 10500000 }
+var PENGELUARAN = [];
+// { tanggal: "25 Nov 2026", donatur: "Hamba Allah", unit: 1 }
+var INFAQ_BARANG = [];
+var UNIT_TOTAL = 4;
+var TAHAP = [
+  { nama: "Bulan ke-1", unit: 2, target: 21000000 },
+  { nama: "Bulan ke-2", unit: 2, target: 21000000 }
+];
+var RAB = [
+  { uraian: "AC LG DUALCOOL Dual Inverter 2 PK T18EV5", volume: "4 unit", satuan: 9000000 },
+  { uraian: "Jasa pemasangan AC", volume: "4 unit", satuan: 350000 },
+  { uraian: "Material instalasi", volume: "4 unit", satuan: 650000 },
+  { uraian: "Cadangan biaya tak terduga (5%)", volume: "1 paket", satuan: 2000000 }
+];
+var RAB_JUMLAH = [36000000, 1400000, 2600000, 2000000];
+
+function rp(n) { return "Rp" + Math.round(n).toLocaleString("id-ID"); }
+function el(id) { return document.getElementById(id); }
+function sum(arr, key) { return arr.reduce(function (a, x) { return a + x[key]; }, 0); }
+function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+
+function fillTable(id, rows, cols, emptyText) {
+  var html = rows.length ? rows.map(function (r, i) {
+    return "<tr><td>" + (i + 1) + "</td>" + cols.map(function (c) {
+      return "<td" + (c.r ? ' class="r"' : "") + ">" + c.f(r) + "</td>";
+    }).join("") + "</tr>";
+  }).join("") : '<tr><td class="empty" colspan="' + (cols.length + 1) + '">' + emptyText + "</td></tr>";
+  el(id).innerHTML = html;
+}
+
+var masuk = sum(DANA_MASUK, "jumlah");
+var keluar = sum(PENGELUARAN, "jumlah");
+var saldo = masuk - keluar;
+var pct = Math.min(100, Math.round(masuk / TARGET * 100));
+var unitDiterima = sum(INFAQ_BARANG, "unit");
+
+el("asof").textContent = AS_OF;
+el("saldo").textContent = rp(saldo);
+el("tot-masuk").textContent = rp(masuk);
+el("tot-keluar").textContent = rp(keluar);
+el("target").textContent = rp(TARGET);
+el("bar-fill").style.width = pct + "%";
+el("bar").setAttribute("aria-valuenow", String(pct));
+el("pct").textContent = pct + "% dari target";
+el("kurang").textContent = masuk >= TARGET ? "Target tercapai" : "Kekurangan " + rp(TARGET - masuk);
+el("masuk-total").textContent = rp(masuk);
+el("keluar-total").textContent = rp(keluar);
+el("barang-total").textContent = unitDiterima + " dari " + UNIT_TOTAL + " unit";
+
+fillTable("masuk-body", DANA_MASUK, [
+  { f: function (r) { return esc(r.tanggal); } },
+  { f: function (r) { return esc(r.donatur); } },
+  { f: function (r) { return rp(r.jumlah); }, r: true }
+], "Belum ada dana masuk. Setiap infaq yang diterima akan dicatat di sini.");
+
+fillTable("keluar-body", PENGELUARAN, [
+  { f: function (r) { return esc(r.tanggal); } },
+  { f: function (r) { return esc(r.uraian); } },
+  { f: function (r) { return rp(r.jumlah); }, r: true }
+], "Belum ada pengeluaran. Realisasi belanja dilaporkan setelah setiap tahap pengadaan.");
+
+fillTable("barang-body", INFAQ_BARANG, [
+  { f: function (r) { return esc(r.tanggal); } },
+  { f: function (r) { return esc(r.donatur); } },
+  { f: function (r) { return r.unit + " unit"; } }
+], "Belum ada unit AC yang diterima.");
+
+var sisa = masuk;
+el("phases").innerHTML = TAHAP.map(function (t) {
+  var got = Math.max(0, Math.min(t.target, sisa));
+  sisa -= t.target;
+  var ok = got >= t.target;
+  return '<div class="phase"><b>' + t.nama + "</b>" +
+    '<span class="sub">' + t.unit + " unit AC · target " + rp(t.target) + "</span>" +
+    '<span class="num">Terkumpul ' + rp(got) + "</span>" +
+    '<span class="pill' + (ok ? " ok" : "") + '">' + (ok ? "Dana tercukupi" : "Menunggu dana") + "</span></div>";
+}).join("");
+
+el("rab-body").innerHTML = RAB.map(function (r, i) {
+  return "<tr><td>" + esc(r.uraian) + '</td><td class="r">' + r.volume + '</td><td class="r">' + rp(r.satuan) + '</td><td class="r">' + rp(RAB_JUMLAH[i]) + "</td></tr>";
+}).join("");
+
+el("copy").addEventListener("click", function () {
+  var note = el("copy-note");
+  var text = el("rek").textContent;
+  function fallback() {
+    var rg = document.createRange(); rg.selectNodeContents(el("rek"));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(rg);
+    note.textContent = "Nomor rekening terpilih. Salin secara manual.";
+  }
+  try {
+    navigator.clipboard.writeText(text).then(function () {
+      note.textContent = "Nomor rekening tersalin.";
+    }, fallback);
+  } catch (e) { fallback(); }
+});
+</script>
+
+</body>
+</html>
