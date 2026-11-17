@@ -6,7 +6,6 @@
 <title>Laporan Dana AC Masjid</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: satu kolom sempit seperti buku kas yang dibaca di ponsel; ringkasan saldo di atas, rincian di bawah. */
 :root {
   --bg: #F2F5F4;
   --surface: #FFFFFF;
@@ -100,7 +99,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
   <header>
     <span class="eyebrow">Yayasan Dzu Nuuroin · Laporan Penggalangan Dana</span>
     <h1>Peremajaan AC Masjid Pondok</h1>
-    <p class="sub">Pengadaan 4 unit AC inverter 2 PK untuk Masjid Pondok Lantai 1 dan 2. Laporan per <span id="asof">6 November 2026</span>.</p>
+    <p class="sub">Pengadaan 4 unit AC inverter 2 PK untuk Masjid Pondok Lantai 1 dan 2. Laporan per <span id="asof">17 November 2026</span>.</p>
   </header>
 
   <div class="summary">
@@ -171,7 +170,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
         <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp42.000.000</td></tr></tfoot>
       </table>
     </div>
-    <p class="sub">Kebutuhan dana per unit AC terpasang Rp10.500.000, termasuk jasa, material, dan cadangan biaya.</p>
+    <p class="sub">Kebutuhan dana per unit AC terpasang Rp10.500.000, termasuk jasa, material, dan cadangan biaya. Merek dan tipe akhir (LG, Sharp, atau Mitsubishi) ditetapkan Yayasan berdasarkan penawaran resmi; harga satuan Rp9.000.000 adalah estimasi acuan.</p>
   </section>
 
   <section>
@@ -200,11 +199,13 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
 </div>
 
 <script>
-/* Catatan kas: tambahkan baris ke daftar di bawah, lalu publikasikan ulang. */
+/* Catatan kas: tambahkan baris ke daftar di bawah, lalu simpan ulang file ini. */
 var TARGET = 42000000;
-var AS_OF = "6 November 2026";
+var AS_OF = "17 November 2026";
 // { tanggal: "7 Nov 2026", donatur: "Hamba Allah", jumlah: 500000 }
-var DANA_MASUK = [];
+var DANA_MASUK = [
+  { tanggal: "17 Nov 2026", donatur: "Infaq terkumpul", jumlah: 2038000 }
+];
 // { tanggal: "20 Nov 2026", uraian: "Pembelian AC unit 1", jumlah: 10500000 }
 var PENGELUARAN = [];
 // { tanggal: "25 Nov 2026", donatur: "Hamba Allah", unit: 1 }
@@ -215,7 +216,7 @@ var TAHAP = [
   { nama: "Bulan ke-2", unit: 2, target: 21000000 }
 ];
 var RAB = [
-  { uraian: "AC LG DUALCOOL Dual Inverter 2 PK T18EV5", volume: "4 unit", satuan: 9000000 },
+  { uraian: "AC inverter 2 PK (pilihan merek: LG / Sharp / Mitsubishi)", volume: "4 unit", satuan: 9000000 },
   { uraian: "Jasa pemasangan AC", volume: "4 unit", satuan: 350000 },
   { uraian: "Material instalasi", volume: "4 unit", satuan: 650000 },
   { uraian: "Cadangan biaya tak terduga (5%)", volume: "1 paket", satuan: 2000000 }
