@@ -6,6 +6,7 @@
 <title>Laporan Dana AC Masjid</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
+/* Layout: satu kolom sempit seperti buku kas yang dibaca di ponsel; ringkasan saldo di atas, rincian di bawah. */
 :root {
   --bg: #F2F5F4;
   --surface: #FFFFFF;
@@ -110,13 +111,13 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
     <div class="stats">
       <div class="stat"><span>Dana masuk</span><span class="num" id="tot-masuk">Rp0</span></div>
       <div class="stat"><span>Pengeluaran</span><span class="num" id="tot-keluar">Rp0</span></div>
-      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp42.000.000</span></div>
+      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp44.000.000</span></div>
     </div>
     <div>
       <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><i id="bar-fill" style="width:0%"></i></div>
       <div class="bar-meta" style="margin-top:8px">
         <span id="pct">0% dari target</span>
-        <span class="num" id="kurang">Kekurangan Rp42.000.000</span>
+        <span class="num" id="kurang">Kekurangan Rp44.000.000</span>
       </div>
     </div>
   </div>
@@ -167,10 +168,10 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <table>
         <thead><tr><th>Uraian</th><th class="r">Volume</th><th class="r">Harga satuan</th><th class="r">Jumlah</th></tr></thead>
         <tbody id="rab-body"></tbody>
-        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp42.000.000</td></tr></tfoot>
+        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp44.000.000</td></tr></tfoot>
       </table>
     </div>
-    <p class="sub">Kebutuhan dana per unit AC terpasang Rp10.500.000, termasuk jasa, material, dan cadangan biaya. Merek dan tipe akhir (LG, Sharp, atau Mitsubishi) ditetapkan Yayasan berdasarkan penawaran resmi; harga satuan Rp9.000.000 adalah estimasi acuan.</p>
+    <p class="sub">Kebutuhan dana per unit AC terpasang Rp11.000.000, termasuk jasa, material, dan cadangan biaya. AC yang diadakan bermerek Mitsubishi; tipe akhir ditetapkan Yayasan berdasarkan penawaran resmi, dan harga satuan Rp9.000.000 adalah estimasi acuan.</p>
   </section>
 
   <section>
@@ -182,7 +183,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <button type="button" id="copy">Salin nomor rekening</button>
       <p class="sub" id="copy-note" aria-live="polite">Konfirmasi infaq: Saiful Islam, 0822-5781-0701</p>
     </div>
-    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq 1 unit AC langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi AC inverter 2 PK.</p>
+    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq 1 unit AC langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi AC Mitsubishi inverter 2 PK.</p>
   </section>
 
   <section>
@@ -199,8 +200,8 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
 </div>
 
 <script>
-/* Catatan kas: tambahkan baris ke daftar di bawah, lalu simpan ulang file ini. */
-var TARGET = 42000000;
+/* Catatan kas: tambahkan baris ke daftar di bawah, lalu publikasikan ulang. */
+var TARGET = 44000000;
 var AS_OF = "17 November 2026";
 // { tanggal: "7 Nov 2026", donatur: "Hamba Allah", jumlah: 500000 }
 var DANA_MASUK = [
@@ -212,16 +213,16 @@ var PENGELUARAN = [];
 var INFAQ_BARANG = [];
 var UNIT_TOTAL = 4;
 var TAHAP = [
-  { nama: "Bulan ke-1", unit: 2, target: 21000000 },
-  { nama: "Bulan ke-2", unit: 2, target: 21000000 }
+  { nama: "Bulan ke-1", unit: 2, target: 22000000 },
+  { nama: "Bulan ke-2", unit: 2, target: 22000000 }
 ];
 var RAB = [
-  { uraian: "AC inverter 2 PK (pilihan merek: LG / Sharp / Mitsubishi)", volume: "4 unit", satuan: 9000000 },
+  { uraian: "AC Mitsubishi inverter 2 PK", volume: "4 unit", satuan: 9000000 },
   { uraian: "Jasa pemasangan AC", volume: "4 unit", satuan: 350000 },
   { uraian: "Material instalasi", volume: "4 unit", satuan: 650000 },
-  { uraian: "Cadangan biaya tak terduga (5%)", volume: "1 paket", satuan: 2000000 }
+  { uraian: "Cadangan biaya tak terduga (10%)", volume: "1 paket", satuan: 4000000 }
 ];
-var RAB_JUMLAH = [36000000, 1400000, 2600000, 2000000];
+var RAB_JUMLAH = [36000000, 1400000, 2600000, 4000000];
 
 function rp(n) { return "Rp" + Math.round(n).toLocaleString("id-ID"); }
 function el(id) { return document.getElementById(id); }
