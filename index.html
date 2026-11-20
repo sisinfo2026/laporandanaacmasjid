@@ -100,7 +100,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
   <header>
     <span class="eyebrow">Yayasan Dzu Nuuroin · Laporan Penggalangan Dana</span>
     <h1>Peremajaan AC Masjid Pondok</h1>
-    <p class="sub">Pengadaan 4 unit AC inverter 2 PK untuk Masjid Pondok Lantai 1 dan 2. Laporan per <span id="asof">17 November 2026</span>.</p>
+    <p class="sub">Pengadaan 6 unit AC Panasonic non-inverter 2 PK untuk Masjid Pondok Lantai 1 dan 2. Laporan per <span id="asof">17 November 2026</span>.</p>
   </header>
 
   <div class="summary">
@@ -111,13 +111,13 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
     <div class="stats">
       <div class="stat"><span>Dana masuk</span><span class="num" id="tot-masuk">Rp0</span></div>
       <div class="stat"><span>Pengeluaran</span><span class="num" id="tot-keluar">Rp0</span></div>
-      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp44.000.000</span></div>
+      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp64.000.000</span></div>
     </div>
     <div>
       <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><i id="bar-fill" style="width:0%"></i></div>
       <div class="bar-meta" style="margin-top:8px">
         <span id="pct">0% dari target</span>
-        <span class="num" id="kurang">Kekurangan Rp44.000.000</span>
+        <span class="num" id="kurang">Kekurangan Rp64.000.000</span>
       </div>
     </div>
   </div>
@@ -151,7 +151,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <table>
         <thead><tr><th>No.</th><th>Tanggal</th><th>Donatur</th><th>Unit</th></tr></thead>
         <tbody id="barang-body"></tbody>
-        <tfoot><tr><td colspan="3">Unit diterima</td><td id="barang-total">0 dari 4 unit</td></tr></tfoot>
+        <tfoot><tr><td colspan="3">Unit diterima</td><td id="barang-total">0 dari 6 unit</td></tr></tfoot>
       </table>
     </div>
   </section>
@@ -168,10 +168,10 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <table>
         <thead><tr><th>Uraian</th><th class="r">Volume</th><th class="r">Harga satuan</th><th class="r">Jumlah</th></tr></thead>
         <tbody id="rab-body"></tbody>
-        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp44.000.000</td></tr></tfoot>
+        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp64.000.000</td></tr></tfoot>
       </table>
     </div>
-    <p class="sub">Kebutuhan dana per unit AC terpasang Rp11.000.000, termasuk jasa, material, dan cadangan biaya. AC yang diadakan bermerek Mitsubishi; tipe akhir ditetapkan Yayasan berdasarkan penawaran resmi, dan harga satuan Rp9.000.000 adalah estimasi acuan.</p>
+    <p class="sub">Kebutuhan dana per unit AC terpasang rata-rata Rp10.667.000 (dibulatkan), termasuk jasa, material, dan cadangan biaya. Material instalasi mencakup selang freon perkiraan 39 meter (Rp125.000 per meter, total Rp4.875.000), kabel, dan isolasi; harga satuan material dibulatkan menjadi Rp1.000.000 per unit. AC yang diadakan bermerek Panasonic tipe non-inverter; tipe akhir ditetapkan Yayasan berdasarkan penawaran resmi, dan harga satuan Rp8.000.000 adalah estimasi acuan untuk unit saja.</p>
   </section>
 
   <section>
@@ -183,7 +183,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <button type="button" id="copy">Salin nomor rekening</button>
       <p class="sub" id="copy-note" aria-live="polite">Konfirmasi infaq: Saiful Islam, 0822-5781-0701</p>
     </div>
-    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq 1 unit AC langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi AC Mitsubishi inverter 2 PK.</p>
+    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq 1 unit AC langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi AC Panasonic non-inverter 2 PK.</p>
   </section>
 
   <section>
@@ -201,7 +201,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
 
 <script>
 /* Catatan kas: tambahkan baris ke daftar di bawah, lalu publikasikan ulang. */
-var TARGET = 44000000;
+var TARGET = 64000000;
 var AS_OF = "17 November 2026";
 // { tanggal: "7 Nov 2026", donatur: "Hamba Allah", jumlah: 500000 }
 var DANA_MASUK = [
@@ -211,18 +211,18 @@ var DANA_MASUK = [
 var PENGELUARAN = [];
 // { tanggal: "25 Nov 2026", donatur: "Hamba Allah", unit: 1 }
 var INFAQ_BARANG = [];
-var UNIT_TOTAL = 4;
+var UNIT_TOTAL = 6;
 var TAHAP = [
-  { nama: "Bulan ke-1", unit: 2, target: 22000000 },
-  { nama: "Bulan ke-2", unit: 2, target: 22000000 }
+  { nama: "Bulan ke-1", unit: 3, target: 32000000 },
+  { nama: "Bulan ke-2", unit: 3, target: 32000000 }
 ];
 var RAB = [
-  { uraian: "AC Mitsubishi inverter 2 PK", volume: "4 unit", satuan: 9000000 },
-  { uraian: "Jasa pemasangan AC", volume: "4 unit", satuan: 350000 },
-  { uraian: "Material instalasi", volume: "4 unit", satuan: 650000 },
-  { uraian: "Cadangan biaya tak terduga (10%)", volume: "1 paket", satuan: 4000000 }
+  { uraian: "AC Panasonic non-inverter 2 PK", volume: "6 unit", satuan: 8000000 },
+  { uraian: "Jasa pemasangan AC", volume: "6 unit", satuan: 700000 },
+  { uraian: "Material instalasi (selang freon, kabel, isolasi)", volume: "6 unit", satuan: 1000000 },
+  { uraian: "Cadangan biaya tak terduga (sekitar 10%)", volume: "1 paket", satuan: 5800000 }
 ];
-var RAB_JUMLAH = [36000000, 1400000, 2600000, 4000000];
+var RAB_JUMLAH = [48000000, 4200000, 6000000, 5800000];
 
 function rp(n) { return "Rp" + Math.round(n).toLocaleString("id-ID"); }
 function el(id) { return document.getElementById(id); }
