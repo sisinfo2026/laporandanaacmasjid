@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Laporan Dana AC Masjid</title>
+<title>Laporan Dana AC dan Kipas Angin Pondok</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
 /* Layout: satu kolom sempit seperti buku kas yang dibaca di ponsel; ringkasan saldo di atas, rincian di bawah. */
@@ -72,7 +72,7 @@ td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; white-space:
 tfoot td { font-weight: 600; border-bottom: 0; }
 .empty { text-align: center; color: var(--muted); padding: 22px 14px; }
 
-.phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.phases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .phase { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .phase b { font-family: var(--font-display); font-size: 1rem; }
 .pill { align-self: flex-start; font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: 99px; background: var(--amber-soft); color: var(--amber); }
@@ -86,9 +86,6 @@ button { font: inherit; font-weight: 600; color: var(--surface); background: var
 button:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
 ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 6px; }
 .closing { color: var(--muted); font-size: 0.875rem; border-top: 1px solid var(--line); padding-top: 16px; }
-@media (max-width: 560px) {
-  .phases { grid-template-columns: 1fr; }
-}
 @media (max-width: 420px) {
   h1 { font-size: 1.5rem; }
   .balance { font-size: 1.9rem; }
@@ -102,8 +99,8 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
 <div class="wrap">
   <header>
     <span class="eyebrow">Yayasan Dzu Nuuroin · Laporan Penggalangan Dana</span>
-    <h1>Peremajaan AC Masjid Pondok</h1>
-    <p class="sub">Pengadaan 6 unit AC Panasonic 2 PK untuk Masjid Pondok Lantai 1 dan 2. Laporan per <span id="asof">17 November 2026</span>.</p>
+    <h1>Peremajaan AC dan Kipas Angin Pondok</h1>
+    <p class="sub">Pengadaan 2 unit AC Panasonic 2 PK untuk Masjid Pondok Lantai 1 dan 2, serta 12 unit kipas angin KDK untuk masjid, kelas, kantor, ruang takhosus, dan banat. Laporan per <span id="asof">23 November 2026</span>.</p>
   </header>
 
   <div class="summary">
@@ -114,13 +111,13 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
     <div class="stats">
       <div class="stat"><span>Dana masuk</span><span class="num" id="tot-masuk">Rp0</span></div>
       <div class="stat"><span>Pengeluaran</span><span class="num" id="tot-keluar">Rp0</span></div>
-      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp64.000.000</span></div>
+      <div class="stat"><span>Target dana</span><span class="num" id="target">Rp30.600.000</span></div>
     </div>
     <div>
       <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><i id="bar-fill" style="width:0%"></i></div>
       <div class="bar-meta" style="margin-top:8px">
         <span id="pct">0% dari target</span>
-        <span class="num" id="kurang">Kekurangan Rp64.000.000</span>
+        <span class="num" id="kurang">Kekurangan Rp30.600.000</span>
       </div>
     </div>
   </div>
@@ -148,13 +145,13 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
   </section>
 
   <section>
-    <h2>Infaq Berupa Unit AC</h2>
-    <p class="sub">Infaq barang dicatat terpisah dari infaq uang. Kebutuhan pengadaan berkurang 1 unit setiap unit diterima dan diperiksa Yayasan.</p>
+    <h2>Infaq Berupa Barang (AC atau Kipas Angin)</h2>
+    <p class="sub">Infaq barang dicatat terpisah dari infaq uang. Kebutuhan pengadaan berkurang sesuai unit yang diterima dan diperiksa Yayasan.</p>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>No.</th><th>Tanggal</th><th>Donatur</th><th>Unit</th></tr></thead>
+        <thead><tr><th>No.</th><th>Tanggal</th><th>Donatur</th><th>Barang</th></tr></thead>
         <tbody id="barang-body"></tbody>
-        <tfoot><tr><td colspan="3">Unit diterima</td><td id="barang-total">0 dari 6 unit</td></tr></tfoot>
+        <tfoot><tr><td colspan="3">Unit diterima</td><td id="barang-total">AC 0 dari 2 unit, kipas 0 dari 12 unit</td></tr></tfoot>
       </table>
     </div>
   </section>
@@ -162,7 +159,7 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
   <section>
     <h2>Tahap Pengadaan</h2>
     <div class="phases" id="phases"></div>
-    <p class="sub">Pengadaan dilakukan bertahap sesuai dana yang terkumpul dan diupayakan selesai sebelum Ramadhan.</p>
+    <p class="sub">Pengadaan dilakukan bertahap sesuai dana yang terkumpul dan diupayakan selesai sebelum Ramadhan. Pembagian 6 kipas per bulan adalah rencana awal dan dapat disesuaikan.</p>
   </section>
 
   <section>
@@ -171,10 +168,28 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <table>
         <thead><tr><th>Uraian</th><th class="r">Volume</th><th class="r">Harga satuan</th><th class="r">Jumlah</th></tr></thead>
         <tbody id="rab-body"></tbody>
-        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp64.000.000</td></tr></tfoot>
+        <tfoot><tr><td colspan="3">Total anggaran</td><td class="r" id="rab-total">Rp30.600.000</td></tr></tfoot>
       </table>
     </div>
-    <p class="sub">Kebutuhan dana per unit AC terpasang rata-rata Rp10.667.000 (dibulatkan), termasuk jasa, material, dan cadangan biaya. Material instalasi mencakup selang freon perkiraan 39 meter (Rp125.000 per meter, total Rp4.875.000), kabel, dan isolasi; harga satuan material dibulatkan menjadi Rp1.000.000 per unit. AC yang diadakan bermerek Panasonic; tipe akhir ditetapkan Yayasan berdasarkan penawaran resmi, dan harga satuan Rp8.000.000 adalah estimasi acuan untuk unit saja.</p>
+    <p class="sub">Sebagai gambaran, satu unit AC terpasang sekitar Rp9.700.000 (unit, jasa pasang, dan material), sedangkan satu kipas angin KDK Rp680.000 (wall fan) atau Rp740.000 (ceiling fan). Material instalasi AC mencakup selang freon, kabel, dan isolasi. AC bermerek Panasonic dan kipas angin bermerek KDK; tipe akhir ditetapkan Yayasan berdasarkan penawaran resmi. Harga AC Rp8.000.000 adalah estimasi untuk unit saja, dan harga kipas angin berasal dari perkiraan bagian Sarana dan Prasarana berdasarkan informasi online.</p>
+  </section>
+
+  <section>
+    <h2>Kebutuhan Kipas Angin</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Lokasi</th><th>Jenis</th><th class="r">Jumlah</th></tr></thead>
+        <tbody>
+          <tr><td>Masjid</td><td>Ceiling fan</td><td class="r">4 unit</td></tr>
+          <tr><td>Kelas 1</td><td>Wall fan</td><td class="r">2 unit</td></tr>
+          <tr><td>Kelas 2</td><td>Wall fan</td><td class="r">2 unit</td></tr>
+          <tr><td>Kantor</td><td>Wall fan</td><td class="r">1 unit</td></tr>
+          <tr><td>Ruang takhosus</td><td>Wall fan</td><td class="r">1 unit</td></tr>
+          <tr><td>Banat (kantor + kelas 1)</td><td>Wall fan</td><td class="r">2 unit</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">Total</td><td class="r">12 unit</td></tr></tfoot>
+      </table>
+    </div>
   </section>
 
   <section>
@@ -186,14 +201,14 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
       <button type="button" id="copy">Salin nomor rekening</button>
       <p class="sub" id="copy-note" aria-live="polite">Konfirmasi infaq: Saiful Islam, 0822-5781-0701</p>
     </div>
-    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq 1 unit AC langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi AC Panasonic 2 PK.</p>
+    <p class="sub">Infaq sesuai kemampuan, berapa pun nilainya, sangat berarti. Infaq AC atau kipas angin langsung dapat diterima setelah dikonsultasikan dengan Yayasan agar sesuai spesifikasi (AC Panasonic 2 PK atau kipas angin KDK).</p>
   </section>
 
   <section>
     <h2>Catatan</h2>
     <ul>
       <li>Harga merupakan estimasi dan akan dikonfirmasi melalui penawaran resmi dealer atau distributor.</li>
-      <li>Anggaran belum termasuk pembongkaran AC lama, perubahan instalasi listrik, dan pekerjaan di luar pemasangan standar.</li>
+      <li>Anggaran belum termasuk pembongkaran AC lama, perubahan instalasi listrik, pemasangan kipas angin, dan pekerjaan di luar pemasangan standar.</li>
       <li>Bila dana infaq belum mencukupi jadwal pengadaan, dana cadangan pondok dapat dipakai sebagai talangan sementara dan dicatat terpisah.</li>
       <li>Jika dana melebihi target, kelebihannya dipakai untuk kebutuhan sarana pondok lainnya dan dilaporkan kepada donatur.</li>
     </ul>
@@ -204,29 +219,31 @@ ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap
 
 <script>
 /* Catatan kas: tambahkan baris ke daftar di bawah, lalu publikasikan ulang. */
-var TARGET = 64000000;
-var AS_OF = "17 November 2026";
+var TARGET = 30600000;
+var AS_OF = "23 November 2026";
 // { tanggal: "7 Nov 2026", donatur: "Hamba Allah", jumlah: 500000 }
 var DANA_MASUK = [
   { tanggal: "17 Nov 2026", donatur: "Infaq terkumpul", jumlah: 2038000 }
 ];
 // { tanggal: "20 Nov 2026", uraian: "Pembelian AC unit 1", jumlah: 10500000 }
 var PENGELUARAN = [];
-// { tanggal: "25 Nov 2026", donatur: "Hamba Allah", unit: 1 }
+// { tanggal: "25 Nov 2026", donatur: "Hamba Allah", jenis: "AC", unit: 1 }   (jenis: "AC" atau "Kipas")
 var INFAQ_BARANG = [];
-var UNIT_TOTAL = 6;
+var UNIT_AC = 2;
+var UNIT_KIPAS = 12;
 var TAHAP = [
-  { nama: "Bulan ke-1", unit: 2, target: 21333000 },
-  { nama: "Bulan ke-2", unit: 2, target: 21333000 },
-  { nama: "Bulan ke-3", unit: 2, target: 21334000 }
+  { nama: "Bulan ke-1", ac: 1, kipas: 6, target: 15300000 },
+  { nama: "Bulan ke-2", ac: 1, kipas: 6, target: 15300000 }
 ];
 var RAB = [
-  { uraian: "AC Panasonic 2 PK", volume: "6 unit", satuan: 8000000 },
-  { uraian: "Jasa pemasangan AC", volume: "6 unit", satuan: 700000 },
-  { uraian: "Material instalasi (selang freon, kabel, isolasi)", volume: "6 unit", satuan: 1000000 },
-  { uraian: "Cadangan biaya tak terduga (sekitar 10%)", volume: "1 paket", satuan: 5800000 }
+  { uraian: "AC Panasonic 2 PK", volume: "2 unit", satuan: 8000000 },
+  { uraian: "Jasa pemasangan AC", volume: "2 unit", satuan: 700000 },
+  { uraian: "Material instalasi AC (selang freon, kabel, isolasi)", volume: "2 unit", satuan: 1000000 },
+  { uraian: "Kipas angin KDK ceiling fan", volume: "4 unit", satuan: 740000 },
+  { uraian: "Kipas angin KDK wall fan", volume: "8 unit", satuan: 680000 },
+  { uraian: "Cadangan biaya tak terduga (sekitar 10%)", volume: "1 paket", satuan: 2800000 }
 ];
-var RAB_JUMLAH = [48000000, 4200000, 6000000, 5800000];
+var RAB_JUMLAH = [16000000, 1400000, 2000000, 2960000, 5440000, 2800000];
 
 function rp(n) { return "Rp" + Math.round(n).toLocaleString("id-ID"); }
 function el(id) { return document.getElementById(id); }
@@ -246,7 +263,8 @@ var masuk = sum(DANA_MASUK, "jumlah");
 var keluar = sum(PENGELUARAN, "jumlah");
 var saldo = masuk - keluar;
 var pct = Math.min(100, Math.round(masuk / TARGET * 100));
-var unitDiterima = sum(INFAQ_BARANG, "unit");
+var acDiterima = sum(INFAQ_BARANG.filter(function (x) { return x.jenis === "AC"; }), "unit");
+var kipasDiterima = sum(INFAQ_BARANG.filter(function (x) { return x.jenis !== "AC"; }), "unit");
 
 el("asof").textContent = AS_OF;
 el("saldo").textContent = rp(saldo);
@@ -259,7 +277,7 @@ el("pct").textContent = pct + "% dari target";
 el("kurang").textContent = masuk >= TARGET ? "Target tercapai" : "Kekurangan " + rp(TARGET - masuk);
 el("masuk-total").textContent = rp(masuk);
 el("keluar-total").textContent = rp(keluar);
-el("barang-total").textContent = unitDiterima + " dari " + UNIT_TOTAL + " unit";
+el("barang-total").textContent = "AC " + acDiterima + " dari " + UNIT_AC + " unit, kipas " + kipasDiterima + " dari " + UNIT_KIPAS + " unit";
 
 fillTable("masuk-body", DANA_MASUK, [
   { f: function (r) { return esc(r.tanggal); } },
@@ -276,8 +294,8 @@ fillTable("keluar-body", PENGELUARAN, [
 fillTable("barang-body", INFAQ_BARANG, [
   { f: function (r) { return esc(r.tanggal); } },
   { f: function (r) { return esc(r.donatur); } },
-  { f: function (r) { return r.unit + " unit"; } }
-], "Belum ada unit AC yang diterima.");
+  { f: function (r) { return r.unit + " unit " + (r.jenis === "AC" ? "AC" : "kipas angin"); } }
+], "Belum ada AC atau kipas angin yang diterima.");
 
 var sisa = masuk;
 el("phases").innerHTML = TAHAP.map(function (t) {
@@ -285,7 +303,7 @@ el("phases").innerHTML = TAHAP.map(function (t) {
   sisa -= t.target;
   var ok = got >= t.target;
   return '<div class="phase"><b>' + t.nama + "</b>" +
-    '<span class="sub">' + t.unit + " unit AC · target " + rp(t.target) + "</span>" +
+    '<span class="sub">' + t.ac + " unit AC dan " + t.kipas + " kipas angin · target " + rp(t.target) + "</span>" +
     '<span class="num">Terkumpul ' + rp(got) + "</span>" +
     '<span class="pill' + (ok ? " ok" : "") + '">' + (ok ? "Dana tercukupi" : "Menunggu dana") + "</span></div>";
 }).join("");
